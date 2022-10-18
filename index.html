@@ -19,7 +19,7 @@ html, body {
   padding: 3em;
   display: flex;
   width: 21cm;
-  height: 29.7cm;
+  height: 30.77cm;
   overflow: hidden;
   page-break-after: always;
 }
@@ -75,8 +75,6 @@ fetch(url, {
    headers: headers
 }).then(r=>r.text()).then(text=>printCSV(text));
 function printCSV(csv) {
-console.log(csv);
-
 let paginaEnCurso=false;
 let nuevoHTML = "";
 csv.split("\n").forEach(fila=> {
@@ -84,7 +82,6 @@ csv.split("\n").forEach(fila=> {
    if (columnas.length != 6) {
       return;
    }
-console.log(columnas);
 
    let categoria = columnas[0].replaceAll('"','');
    let codigo = columnas[1].replaceAll('"','');
@@ -93,12 +90,10 @@ console.log(columnas);
    let coleccion = columnas[4].replaceAll('"','');
    let portada = columnas[5].replaceAll('"','');
 
-   console.log(fila);
    if (categoria == "Categoría") {
       return;
    }
    if ((categoria != "" || codigo == "") && paginaEnCurso) {
-      console.log("cierra");
       nuevoHTML+=`</div>`;
       paginaEnCurso = false;
    }
@@ -116,11 +111,24 @@ console.log(columnas);
    nuevoHTML+=`
     <div class="libro">
      <img src="${portada}" />
-     <div class="info">
-       <div class="coleccion">${coleccion}</div>
-       <div class="titulo">${titulo}</div>
-       <div class="autor">${autor}</div>
-       <div class="codigo">${codigo}</div>
+     <div class="info">`;
+   if (coleccion != "") {
+     nuevoHTML+=`
+     <div class="coleccion">${coleccion}</div>`;
+   }
+   if (titulo != "") {
+     nuevoHTML+=`
+     <div class="titulo">${titulo}</div>`;
+   }
+   if (autor != "") {
+     nuevoHTML+=`
+     <div class="autor">${autor}</div>`;
+   }
+   if (codigo != "") {
+     nuevoHTML+=`
+     <div class="codigo">${codigo}</div>`;
+   }
+   nuevoHTML+=`
      </div>
     </div>
    `;
@@ -132,7 +140,6 @@ if (paginaEnCurso) {
 
 let cat=document.getElementById("catalogo");
 cat.innerHTML += nuevoHTML;
-console.log("TERMINAMOS");
 }
 </script>
 </body>
