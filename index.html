@@ -92,7 +92,7 @@ console.log(columnas);
    let autor = columnas[2].replaceAll('"','');
    let titulo = columnas[3].replaceAll('"','');
    let coleccion = columnas[4].replaceAll('"','');
-   let portada = columnas[5].replaceAll('"','');
+   let portada = columnas[5].replaceAll('"','').replace("https://drive.google.com/file/","").replace("/view?usp=sharing","");
 
    console.log(fila);
    if (categoria == "Categoría") {
@@ -116,7 +116,7 @@ console.log(columnas);
    }
    nuevoHTML+=`
     <div class="libro">
-     <img src="${portada}" />
+     <img src="https://drive.google.com/uc?id=${portada}" />
      <div class="info">
        <div class="coleccion">${coleccion}</div>
        <div class="titulo">${titulo}</div>
