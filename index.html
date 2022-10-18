@@ -14,7 +14,7 @@ html, body {
   padding: 0;
 }
 .pagina {
-  background-image: linear-gradient(rgba(255,0,0,0.20), rgba(255,0,0,0.20)), url("fondo.jpg");
+  background-image: linear-gradient(rgba(255,0,0,0.20), rgba(255,0,0,0.20)), url("https://drive.google.com/uc?id=1eXARG2R_Mem8m6lDs41qQ78xk7wjov7l");
   background-size: cover;
   flex-direction: column;
   padding: 3em;
@@ -92,7 +92,7 @@ console.log(columnas);
    let autor = columnas[2].replaceAll('"','');
    let titulo = columnas[3].replaceAll('"','');
    let coleccion = columnas[4].replaceAll('"','');
-   let portada = columnas[5].replaceAll('"','').replace("https://drive.google.com/file/d/","").replace("/view?usp=sharing","");
+   let portada = columnas[5].replaceAll('"','');
 
    console.log(fila);
    if (categoria == "Categoría") {
@@ -116,7 +116,7 @@ console.log(columnas);
    }
    nuevoHTML+=`
     <div class="libro">
-     <img src="https://drive.google.com/uc?id=${portada}" />
+     <img src="${portada}" />
      <div class="info">
        <div class="coleccion">${coleccion}</div>
        <div class="titulo">${titulo}</div>
