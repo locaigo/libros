@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://github.com/murtaugh/HTML5-Reset/blob/master/assets/css/reset.css">
+<style>
+@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+
+html, body {
+  background-color:yellow;
+  margin: 0;
+  padding: 0;
+}
+.pagina {
+  background-image: linear-gradient(rgba(255,0,0,0.20), rgba(255,0,0,0.20)), url("fondo.jpg");
+  background-size: cover;
+  flex-direction: column;
+  padding: 3em;
+  display: flex;
+  width: 21cm;
+  height: 29.7cm;
+  overflow: hidden;
+  page-break-after: always;
+}
+.libro {
+  height: 100%;
+  justify-content: space-between;
+  display: flex;
+}
+.libro > .info > .titulo { color: rgb(196, 0, 58); font-size: 39pt; }
+.libro > .info > .autor { color: rgb(44, 101, 47); font-size: 28pt; }
+.libro > .info > .coleccion { color: rgb(3, 16, 73); font-size: 28pt; }
+.libro:nth-child(even) .info { order: 0; }
+.libro:nth-child(even) img { order: 1; }
+.libro:nth-child(odd) .info { order: 1; }
+.libro:nth-child(odd) img { order: 0; }
+.libro:nth-child(even) > .info > .codigo { align-self: flex-end; margin-right: -1em; }
+.libro:nth-child(odd) > .info > .codigo { align-self: flex-start; margin-left: -1em; }
+
+.libro img {
+  height:0;
+  min-height:100%;
+}
+
+.libro > .info {
+   text-align: center;
+   font-family: 'Lobster', sans-serif;
+   justify-content: center;
+   align-items: center;
+   flex-grow: 3;
+   flex-direction: column;
+   display: flex;
+   font-size: 3em;
+}
+.libro > .info > .codigo {
+   z-index: 2;
+   border: 1px solid black;
+   border-radius: 25%;
+   padding: 0.5em;
+   background-color: rgba(255,255,255,0.75);
+   font-family: 'Open+Sans', sans-serif;
+   font-size: 20pt;
+}
+
+</style>
+</head>
+<body id="catalogo">
+<script>
+let url="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3FL3NmpYMFMNk6TA154N8Iqoq_zpjzyBRU41DPqYLJ7nucHeZWLS1S1l2z04IU2eDlkw6EBEMzLuH/pub?gid=0&single=true&output=csv";
+let headers={};
+fetch(url, {
+   method : "GET",
+   mode: 'cors',
+   headers: headers
+}).then(r=>r.text()).then(text=>printCSV(text));
+function printCSV(csv) {
+console.log(csv);
+
+let paginaEnCurso=false;
+let nuevoHTML = "";
+csv.split("\n").forEach(fila=> {
+   let columnas = fila.split(",");
+   if (columnas.length != 5) {
+      return;
+   }
+console.log(columnas);
+
+   let categoria = columnas[0].replaceAll('"','');
+   let codigo = columnas[1].replaceAll('"','');
+   let autor = columnas[2].replaceAll('"','');
+   let titulo = columnas[3].replaceAll('"','');
+   let coleccion = columnas[4].replaceAll('"','');
+
+   console.log(fila);
+   if (categoria == "Categoría") {
+      return;
+   }
+   if ((categoria != "" || codigo == "") && paginaEnCurso) {
+      console.log("cierra");
+      nuevoHTML+=`</div>`;
+      paginaEnCurso = false;
+   }
+   if (categoria != "") {
+      nuevoHTML+=`<div class="pagina">${categoria}</div>`;
+      nuevoHTML+=`<div class="pagina">`;
+      paginaEnCurso = true;
+      return;
+   }
+   if (codigo == "") {
+      nuevoHTML+=`<div class="pagina">`;
+      paginaEnCurso = true;
+      return;
+   }
+   nuevoHTML+=`
+    <div class="libro">
+     <img src="test" />
+     <div class="info">
+       <div class="coleccion">${coleccion}</div>
+       <div class="titulo">${titulo}</div>
+       <div class="autor">${autor}</div>
+       <div class="codigo">${codigo}</div>
+     </div>
+    </div>
+   `;
+});
+if (paginaEnCurso) {
+   nuevoHTML+=`</div>`;
+    paginaEnCurso = false;
+}
+
+let cat=document.getElementById("catalogo");
+cat.innerHTML += nuevoHTML;
+console.log("TERMINAMOS");
+}
+</script>
+</body>
+</html>
