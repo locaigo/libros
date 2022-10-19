@@ -108,7 +108,7 @@ csv.split("\n").forEach(fila=> {
    if (categoria != "") {
       categoriaActual++;
       colorFondo = columnas[1].replaceAll('"',''); // En las filas en las que definimos la categoría la segunda columna debe incluir un color en formato HTML #000000
-      nuevoHTML=`<style>
+      nuevoHTML+=`<style>
       .cat${categoriaActual} {
         background-image: linear-gradient(${colorFondo}, ${colorFondo}), url("https://drive.google.com/uc?id=1eXARG2R_Mem8m6lDs41qQ78xk7wjov7l");
       }
