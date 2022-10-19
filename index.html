@@ -101,7 +101,7 @@ csv.split("\n").forEach(fila=> {
    if (categoria == "Categoría") {
       return;
    }
-   if ((categoria != "" || codigo == "") && paginaEnCurso) {
+   if (paginaEnCurso && (categoria != "" || codigo == "")) {
       nuevoHTML+=`</div>`;
       paginaEnCurso = false;
    }
@@ -114,14 +114,11 @@ csv.split("\n").forEach(fila=> {
       }
       </style>`;
       nuevoHTML+=`<div class="pagina categoria cat${categoriaActual}">${categoria}</div>`;
-      nuevoHTML+=`<div class="pagina cat${categoriaActual}">`;
-      paginaEnCurso = true;
       return;
    }
-   if (codigo == "") {
+   if (!paginaEnCurso && codigo != "") {
       nuevoHTML+=`<div class="pagina cat${categoriaActual}">`;
       paginaEnCurso = true;
-      return;
    }
    nuevoHTML+=`
     <div class="libro">
