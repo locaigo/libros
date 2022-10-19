@@ -13,7 +13,6 @@ html, body {
   padding: 0;
 }
 .pagina {
-  background-image: linear-gradient(rgba(255,0,0,0.20), rgba(255,0,0,0.20)), url("https://drive.google.com/uc?id=1eXARG2R_Mem8m6lDs41qQ78xk7wjov7l");
   background-size: cover;
   flex-direction: column;
   padding: 30pt;
@@ -85,6 +84,7 @@ fetch(url, {
 function printCSV(csv) {
 let paginaEnCurso=false;
 let nuevoHTML = "";
+let categoriaActual = 0;
 csv.split("\n").forEach(fila=> {
    let columnas = fila.split(",");
    if (columnas.length != 6) {
@@ -106,13 +106,20 @@ csv.split("\n").forEach(fila=> {
       paginaEnCurso = false;
    }
    if (categoria != "") {
-      nuevoHTML+=`<div class="pagina categoria">${categoria}</div>`;
-      nuevoHTML+=`<div class="pagina">`;
+      categoriaActual++;
+      colorFondo = columnas[1].replaceAll('"',''); // En las filas en las que definimos la categoría la segunda columna debe incluir un color en formato HTML #000000
+      nuevoHTML=`<style>
+      .cat${categoriaActual} {
+        background-image: linear-gradient(${colorFondo}, ${colorFondo}), url("https://drive.google.com/uc?id=1eXARG2R_Mem8m6lDs41qQ78xk7wjov7l");
+      }
+      </style>`;
+      nuevoHTML+=`<div class="pagina categoria cat${categoriaActual}">${categoria}</div>`;
+      nuevoHTML+=`<div class="pagina cat${categoriaActual}">`;
       paginaEnCurso = true;
       return;
    }
    if (codigo == "") {
-      nuevoHTML+=`<div class="pagina">`;
+      nuevoHTML+=`<div class="pagina cat${categoriaActual}">`;
       paginaEnCurso = true;
       return;
    }
