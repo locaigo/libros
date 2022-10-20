@@ -39,12 +39,12 @@ html, body {
 .libro > .info > .titulo { color: rgb(196, 0, 58); font-size: 39pt; }
 .libro > .info > .autor { color: rgb(44, 101, 47); font-size: 28pt; }
 .libro > .info > .coleccion { color: rgb(3, 16, 73); font-size: 28pt; }
-.libro:nth-child(even) .info { order: 0; }
-.libro:nth-child(even) img { order: 1; }
-.libro:nth-child(odd) .info { order: 1; }
-.libro:nth-child(odd) img { order: 0; }
-.libro:nth-child(even) > .info > .codigo { align-self: flex-end; margin-right: -1em; }
-.libro:nth-child(odd) > .info > .codigo { align-self: flex-start; margin-left: -1em; }
+.libro.par .info { order: 0; }
+.libro.par img { order: 1; }
+.libro.impar .info { order: 1; }
+.libro.impar img { order: 0; }
+.libro.par > .info > .codigo { align-self: flex-end; margin-right: -1em; }
+.libro.impar > .info > .codigo { align-self: flex-start; margin-left: -1em; }
 
 .libro img {
   padding: 15pt;
@@ -88,6 +88,7 @@ function printCSV(csv) {
 let paginaEnCurso=false;
 let nuevoHTML = "";
 let categoriaActual = 0;
+let libroActual = 0;
 csv.split("\n").forEach(fila=> {
    let columnas = fila.split(",");
    if (columnas.length != 6) {
@@ -128,8 +129,15 @@ csv.split("\n").forEach(fila=> {
       nuevoHTML+=`<div class="pagina cat${categoriaActual}">`;
       paginaEnCurso = true;
    }
+   libroActual++;
+   let libroParImpar = "";
+   if (libroActual % 2 == 0) {
+     libroParImpar = "par";
+   } else {
+     libroParImpar = "impar";
+   }
    nuevoHTML+=`
-    <div class="libro">
+    <div class="libro ${libroParImpar}">
      <img src="${portada}" />
      <div class="info">`;
    if (coleccion != "") {
