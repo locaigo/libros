@@ -15,7 +15,7 @@ html, body {
 .pagina {
   background-size: cover;
   flex-direction: column;
-  padding: 30pt;
+  padding: 15pt;
   display: flex;
   width: 21cm;
   height: 30.56cm;
@@ -47,11 +47,13 @@ html, body {
 .libro:nth-child(odd) > .info > .codigo { align-self: flex-start; margin-left: -1em; }
 
 .libro img {
+  padding: 15pt;
   height:0;
-  min-height:100%;
+  min-height:90%;
 }
 
 .libro > .info {
+   padding: 15pt;
    text-align: center;
    font-family: 'Lobster', sans-serif;
    justify-content: center;
@@ -102,11 +104,16 @@ csv.split("\n").forEach(fila=> {
    if (categoria == "Categoría") {
       return;
    }
-   if (paginaEnCurso && (categoria != "" || codigo == "")) {
+   if (paginaEnCurso && codigo == "") {
       nuevoHTML+=`</div>`;
       paginaEnCurso = false;
+      return;
    }
    if (categoria != "") {
+      if (paginaEnCurso) {
+        nuevoHTML+=`</div>`;
+        paginaEnCurso = false;
+      }
       categoriaActual++;
       imagenFondo = columnas[1].replaceAll('"',''); // En las filas en las que definimos la categoría la segunda columna debe incluir la url de  una imagen de fondo
       nuevoHTML+=`<style>
